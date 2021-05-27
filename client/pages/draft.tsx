@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-const Editor = dynamic(() => import("components/draft/Editor"), {
+const Editor = dynamic(() => import("components/draft"), {
   ssr: false,
   loading: () => {
     return <span>Loading...</span>;

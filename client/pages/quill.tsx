@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-const Editor = dynamic(() => import("components/quill/Editor"), {
+const Editor = dynamic(() => import("components/quill"), {
   ssr: false,
   loading: () => {
     return <span>Loading...</span>;

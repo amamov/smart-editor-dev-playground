@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-const Editor = dynamic(() => import("components/ckeditor/Editor"), {
+const Editor = dynamic(() => import("components/ckeditor"), {
   ssr: false,
   loading: () => {
     return <span>Loading...</span>;
