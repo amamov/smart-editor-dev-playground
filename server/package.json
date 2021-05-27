@@ -1,8 +1,6 @@
 {
-  "name": "express-ts-minimal-boilerplate",
+  "name": "smart-editor-dev-playground-server",
   "version": "1.0.0",
-  "description": "⚡️ minimal boilerplate based on express's typescript ⚡️",
-  "main": "index.js",
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "tsc",
