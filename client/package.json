@@ -9,7 +9,9 @@
     "start": "next start -p 3000"
   },
   "dependencies": {
-    "@types/react-draft-wysiwyg": "^1.13.2",
+    "@toast-ui/editor-plugin-code-syntax-highlight": "^3.0.0-alpha.0",
+    "@toast-ui/editor-plugin-color-syntax": "^3.0.0-alpha.0",
+    "@toast-ui/react-editor": "^2.5.3",
     "axios": "^0.21.1",
     "babel-plugin-styled-components": "^1.12.0",
     "draft-js": "^0.11.7",
@@ -27,6 +29,7 @@
     "@types/node": "^15.6.0",
     "@types/quill": "^2.0.7",
     "@types/react": "^17.0.6",
+    "@types/react-draft-wysiwyg": "^1.13.2",
     "@types/styled-components": "^5.1.9",
     "@types/uuid": "^8.3.0",
     "typescript": "^4.2.4"

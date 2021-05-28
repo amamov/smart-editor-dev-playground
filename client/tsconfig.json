@@ -22,7 +22,8 @@
     "next.config.js",
     "components/feature/quill/PostForm.jsx",
     "components/feature/quill/TextEditor.tsx",
-    "pages/index.tsx"
+    "pages/index.tsx",
+    "components/ckeditor/index.jsx"
   ],
   "exclude": ["node_modules"]
 }
