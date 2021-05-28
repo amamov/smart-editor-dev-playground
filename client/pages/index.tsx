@@ -18,7 +18,7 @@ function Home() {
             <Link href="/draft">draft-js | react-draft-wysiwyg</Link>
           </li>
           <li>
-            <Link href="/ckeditor">ckeditor5</Link>
+            <Link href="/toast">toast-ui</Link>
           </li>
         </ul>
       </h1>

@@ -1,19 +1,23 @@
 //* https://nhn.github.io/tui.editor/latest/
 
 import "codemirror/lib/codemirror.css";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "highlight.js/styles/github.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import hljs from "highlight.js";
 import { useCallback, useRef, useState } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import { youtubePlugin } from "utils/toast-editor-plugins";
 import axios from "axios";
 import ViewerComponent from "./viewer";
+import colorSyntaxPlugin from "@toast-ui/editor-plugin-color-syntax";
+import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 
-// TOAST UI Editor Plugins
-// import "tui-chart/dist/tui-chart.css";
-// import chart from "@toast-ui/editor-plugin-chart";
-// import "highlight.js/styles/github.css";
-// import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
-// import uml from "@toast-ui/editor-plugin-uml";
+/**
+ * colorSyntaxPlugin 등록하면 무한 로딩이 된다.
+ * codeSyntaxHighlightPlugin 등록해도 변화가 안나온다.
+ */
 
 /*
 ```youtube
@@ -67,7 +71,11 @@ function EditorComponent() {
         initialEditType="markdown"
         useCommandShortcut={true}
         ref={editorRef}
-        plugins={[youtubePlugin]}
+        plugins={[
+          youtubePlugin,
+          // colorSyntaxPlugin,
+          codeSyntaxHighlightPlugin.bind(hljs),
+        ]}
         hooks={{
           addImageBlobHook: addImageBlobCallback,
         }}

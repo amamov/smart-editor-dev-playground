@@ -7,14 +7,6 @@ import { Editor, Viewer } from "@toast-ui/react-editor";
 import { youtubePlugin } from "utils/toast-editor-plugins";
 import axios from "axios";
 
-/*
-
-```youtube
-Zl07LUsR6P0
-```
-
-*/
-
 type ViewerProps = {
   content: string;
 };
