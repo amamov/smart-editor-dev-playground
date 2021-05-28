@@ -4,7 +4,7 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Editor, Viewer } from "@toast-ui/react-editor";
-import { youtubePlugin } from "utils/toast-editor-plugins";
+import videoPlugin from "utils/toast-video-plugin";
 import axios from "axios";
 
 type ViewerProps = {
@@ -21,7 +21,7 @@ function ViewerComponent({ content }: ViewerProps) {
 
   return (
     <>
-      <Viewer initialValue={""} plugins={[youtubePlugin]} ref={editorRef} />
+      <Viewer initialValue={""} plugins={[videoPlugin]} ref={editorRef} />
     </>
   );
 }

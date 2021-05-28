@@ -4,7 +4,7 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useCallback, useRef, useState } from "react";
 import { Editor } from "@toast-ui/react-editor";
-import { youtubePlugin } from "utils/toast-editor-plugins";
+import videoPlugin from "utils/toast-video-plugin";
 import axios from "axios";
 import ViewerComponent from "./viewer";
 
@@ -54,7 +54,7 @@ function EditorComponent() {
         initialEditType="markdown"
         useCommandShortcut={true}
         ref={editorRef}
-        plugins={[youtubePlugin]}
+        plugins={[videoPlugin]}
         hooks={{
           addImageBlobHook: addImageBlobCallback,
         }}
