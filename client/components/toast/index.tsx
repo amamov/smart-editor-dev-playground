@@ -2,17 +2,11 @@
 
 import "codemirror/lib/codemirror.css";
 import "tui-color-picker/dist/tui-color-picker.css";
-import "highlight.js/styles/github.css";
-import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import hljs from "highlight.js";
 import { useCallback, useRef, useState } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import { youtubePlugin } from "utils/toast-editor-plugins";
 import axios from "axios";
 import ViewerComponent from "./viewer";
-import colorSyntaxPlugin from "@toast-ui/editor-plugin-color-syntax";
-import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 
 /**
  * colorSyntaxPlugin 등록하면 무한 로딩이 된다.
@@ -71,11 +65,7 @@ function EditorComponent() {
         initialEditType="markdown"
         useCommandShortcut={true}
         ref={editorRef}
-        plugins={[
-          youtubePlugin,
-          // colorSyntaxPlugin,
-          codeSyntaxHighlightPlugin.bind(hljs),
-        ]}
+        plugins={[youtubePlugin]}
         hooks={{
           addImageBlobHook: addImageBlobCallback,
         }}
