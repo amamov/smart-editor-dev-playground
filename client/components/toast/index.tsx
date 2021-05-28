@@ -1,23 +1,12 @@
 //* https://nhn.github.io/tui.editor/latest/
 
 import "codemirror/lib/codemirror.css";
-import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
 import { useCallback, useRef, useState } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import { youtubePlugin } from "utils/toast-editor-plugins";
 import axios from "axios";
 import ViewerComponent from "./viewer";
-
-/**
- * colorSyntaxPlugin 등록하면 무한 로딩이 된다.
- * codeSyntaxHighlightPlugin 등록해도 변화가 안나온다.
- */
-
-/*
-```youtube
-Zl07LUsR6P0
-```
-*/
 
 function EditorComponent() {
   const [content, setContent] = useState<string>("");

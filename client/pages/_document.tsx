@@ -37,6 +37,10 @@ class RootDocument extends Document {
       <Html>
         <Head>
           <meta charSet="utf-8" />
+          <link
+            rel="stylesheet"
+            href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.css"
+          />
         </Head>
         <body>
           <Main />
