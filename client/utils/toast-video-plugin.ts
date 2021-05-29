@@ -51,7 +51,7 @@ function videoPlugin(editor) {
         renderVideo.bind(null, wrapperId, sourceId, videoType, videoMap),
         0
       );
-      return `<div style="text-align:center" class="youtube_container" id="${wrapperId}"></div>`;
+      return `<div style="text-align:center" class="video_container" id="${wrapperId}"></div>`;
     });
   });
 }
