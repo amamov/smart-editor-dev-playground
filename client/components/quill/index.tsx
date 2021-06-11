@@ -5,15 +5,24 @@ import "quill/dist/quill.snow.css";
 
 const SAVE_INTERVAL_MS = 5000;
 const TOOLBAR_OPTIONS = [
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  [{ font: [] }],
-  [{ list: "ordered" }, { list: "bullet" }],
-  ["bold", "italic", "underline"],
-  [{ color: [] }, { background: [] }],
-  [{ script: "sub" }, { script: "super" }],
-  [{ align: [] }],
+  // https://quilljs.com/docs/modules/toolbar/
+  ["bold", "italic", "underline", "strike"], // toggled buttons
   ["blockquote", "code-block"],
-  ["clean"],
+
+  [{ header: 1 }, { header: 2 }], // custom button values
+  [{ list: "ordered" }, { list: "bullet" }],
+  [{ script: "sub" }, { script: "super" }], // superscript/subscript
+  [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+  [{ direction: "rtl" }], // text direction
+
+  [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+  [{ font: [] }],
+  [{ align: [] }],
+
+  ["clean"], // remove formatting button
 ];
 const FORMATS = [
   "header",
@@ -34,14 +43,13 @@ const FORMATS = [
 
 function EditorComponent() {
   const docId = "6af6e935-2567-4aaf-bc66-073888899019";
-
   const [socket, setSocket] = useState<Socket | null>(null);
   const [quill, setQuill] = useState<Quill | null>(null);
 
   //* create local quill editor
   const editorRef = useCallback((wrapper: HTMLDivElement | null) => {
     if (wrapper === null) return;
-    wrapper.innerHTML = "";
+    wrapper.innerHTML = ""; // 초기화
     const editor = document.createElement("div");
     wrapper.append(editor);
     const _quill: Quill = new Quill(editor, {
@@ -49,10 +57,11 @@ function EditorComponent() {
       modules: {
         toolbar: TOOLBAR_OPTIONS,
       },
-      formats: FORMATS,
+      // formats: FORMATS,
     });
     _quill.disable();
     _quill.setText("Loading...");
+
     setQuill(_quill);
   }, []);
 
@@ -68,9 +77,7 @@ function EditorComponent() {
   //* get doc from server and load doc in local quill editor
   useEffect(() => {
     if (socket == null || quill == null) return;
-
     socket.emit("get-document", docId);
-
     socket.once("load-document", (doc) => {
       quill.setContents(doc);
       quill.enable();
@@ -121,6 +128,8 @@ function EditorComponent() {
       socket.off("receive-changes", handler);
     };
   }, [socket, quill]);
+
+  //*
 
   return <div className="quill-container" ref={editorRef}></div>;
 }

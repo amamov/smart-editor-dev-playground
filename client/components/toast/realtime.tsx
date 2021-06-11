@@ -1,42 +1,31 @@
 //* https://nhn.github.io/tui.editor/latest/
+//! error
 
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SourceType } from "@toast-ui/editor";
 import { Editor } from "@toast-ui/react-editor";
+import { SourceType } from "@toast-ui/editor";
 import videoPlugin from "utils/toast-video-plugin";
 import axios from "axios";
 import ViewerComponent from "./viewer";
+import { Socket, io } from "socket.io-client";
+
+const docId = "6af6e935-2567-4aaf-bc66-07327899019";
+const SAVE_INTERVAL_MS = 3000;
 
 function EditorComponent() {
   const [content, setContent] = useState<string>("");
   const editorRef = useRef<Editor | null>(null);
-
-  const handleSaveClick = useCallback(() => {
-    if (!editorRef.current) return;
-    const editor = editorRef.current.getInstance();
-    const html = editor.getHtml();
-    setContent(html);
-  }, [editorRef]);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     //* 저장
-  //   }, 10000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [content]);
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   const handleChangeEditor = useCallback<
     (param: { source: SourceType | "viewer"; data: MouseEvent }) => void
   >(({ source }) => {
-    //* editor switch
     console.log(source);
-
     const editor = editorRef.current.getInstance();
     const html = editor.getHtml();
+    console.log(html);
     setContent(html);
   }, []);
 
@@ -69,13 +58,51 @@ function EditorComponent() {
     [editorRef]
   );
 
+  //* connect server socket
+  useEffect(() => {
+    const socket = io("http://localhost:5000", { path: "/socket.io" });
+    setSocket(socket);
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  //* get doc from server and load doc in local editor
+  useEffect(() => {
+    if (socket === null || editorRef === null) return;
+    socket.emit("get-document", docId);
+    socket.once("load-document", (doc) => {
+      const html = editorRef.current.getInstance();
+      html.setMarkdown(doc);
+    });
+  }, [socket, editorRef, docId]);
+
+  //* changed doc broadcast and emit other user
+  useEffect(() => {
+    if (socket === null || editorRef === null) return;
+    socket.emit("send-changes", content);
+  }, [socket, editorRef, content]);
+
+  //* update contents
+  useEffect(() => {
+    if (socket === null || editorRef === null) return;
+    const handler = (doc): void => {
+      const html = editorRef.current.getInstance().setHtml(doc);
+
+      //   html.setHtml();
+    };
+    socket.on("receive-changes", handler);
+    return () => {
+      socket.off("receive-changes", handler);
+    };
+  }, [socket, editorRef]);
+
   return (
     <>
       <Editor
-        initialValue="hello editor!!!"
         previewStyle="vertical"
         height="600px"
-        initialEditType="markdown"
+        initialEditType="wysiwyg"
         useCommandShortcut={true}
         ref={editorRef}
         plugins={[videoPlugin]}
@@ -84,9 +111,6 @@ function EditorComponent() {
           addImageBlobHook: addImageBlobCallback,
         }}
       />
-      <button onClick={handleSaveClick}>Save</button>
-      <h1>Current Doc</h1>
-      <textarea value={content} readOnly></textarea>
       <h1>Sever Read Doc</h1>
       <ViewerComponent content={content} />
     </>

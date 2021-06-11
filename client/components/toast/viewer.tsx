@@ -2,10 +2,9 @@
 
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Editor, Viewer } from "@toast-ui/react-editor";
+import { useEffect, useRef } from "react";
+import { Viewer } from "@toast-ui/react-editor";
 import videoPlugin from "utils/toast-video-plugin";
-import axios from "axios";
 
 type ViewerProps = {
   content: string;

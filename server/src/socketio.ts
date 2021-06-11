@@ -1,8 +1,9 @@
 import * as http from "http";
 import * as express from "express";
-import Doc, { IDocDocument } from "./schema/QuillDoc";
 import { Server, Socket } from "socket.io";
 import { Types } from "mongoose";
+// import Doc, { IDoc } from "./schema/Doc";
+import Doc, { IDocDocument } from "./schema/QuillDoc";
 
 const defaultValue = "";
 
@@ -12,6 +13,12 @@ async function findOrCreateDoc(id: Types.ObjectId): Promise<IDocDocument> {
   return await Doc.create({ _id: id, data: defaultValue });
 }
 
+// async function findOrCreateDoc(id: Types.ObjectId): Promise<IDoc> {
+//   const doc = await Doc.findById(id);
+//   if (doc) return doc;
+//   return await Doc.create({ _id: id, data: defaultValue });
+// }
+
 const socket = (server: http.Server, app: express.Application) => {
   const io = new Server(server, {
     path: "/socket.io",
@@ -20,6 +27,7 @@ const socket = (server: http.Server, app: express.Application) => {
       methods: ["GET", "POST"],
     },
   });
+
   app.set("io", io);
 
   io.on("connection", (socket: Socket) => {
